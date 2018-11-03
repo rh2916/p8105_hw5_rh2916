@@ -1,0 +1,25 @@
+---
+title: "p8105_hw5_rh2916"
+author: "Rui Huang"
+date: "November 1, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(purrr)
+library(repurrrsive)
+```
+
+### Start with a dataframe containing all file names
+```{r}
+df = as.data.frame(list.files(path = "./data"))
+colnames(df) = "filename"
+```
+
+### Iterate over file names and read in data for each subject 
+
+
+
