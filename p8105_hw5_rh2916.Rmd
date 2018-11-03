@@ -98,16 +98,39 @@ Baltimore_unsolved_homicides =
   filter(city_state == "Baltimore,MD") %>% 
   summarize(total_homicide = n())
 
-Baltimore_proportion_of_unsolved_homicides = prop.test(Baltimore_unsolved_homicides[ ,1], Baltimore_homicide[ ,1]) %>% 
-broom::tidy() 
+Baltimore_proportion_of_unsolved_homicides =   
+  prop.test(Baltimore_unsolved_homicides[ ,1], Baltimore_homicide[    ,1]) %>% 
+  broom::tidy() %>%
+  janitor::clean_names()
 
 Baltimore_proportion_of_unsolved_homicides %>% pull(estimate) 
-Baltimore_proportion_of_unsolved_homicides %>% pull(conf.low)
-Baltimore_proportion_of_unsolved_homicides %>% pull(conf.high)
+Baltimore_proportion_of_unsolved_homicides %>% pull(conf_low)
+Baltimore_proportion_of_unsolved_homicides %>% pull(conf_high)
 ```
 
-```{r}
+### prop.test for each of the cities 
 
+```{r, warning=F}
+prop_test = function(x, y) {
+  prop.test(x, y) %>% 
+  broom::tidy() %>%
+  janitor::clean_names()
+}
+
+estimate = function(n){
+  df_filter = df_summrize %>%
+  filter(city_state == n)
+
+map2_df( df_filter$unsolved_homicide,df_filter$total_homicide,  prop_test)  
+}
+
+df_city_state = df_summrize %>% pull(city_state)
+
+df_proportion = map_df(df_city_state, estimate)
+
+df_summrize %>%
+  mutate(estimate_proportion =  map(df_city_state, estimate)) %>% 
+  unnest()
 ```
 
 
