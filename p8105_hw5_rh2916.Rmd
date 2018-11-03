@@ -18,7 +18,7 @@ df = as.data.frame(list.files(path = "./data"))
 colnames(df) = "filename"
 ```
 
-### Iterate over file names and read in data for each subject 
+### Iterate over file names and tidy the result
 
 ```{r, message=FALSE}
 read_data = function(subject) {
@@ -38,6 +38,8 @@ df_problem1 = cbind(df, id, output) %>%
   mutate(week = as.numeric(str_replace(week, "week_", "")),
          id = as.factor(id))
 ```
+
+### Make a spaghetti plot
 
 
 
