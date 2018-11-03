@@ -73,6 +73,42 @@ df_problem2 =
 
 The raw data contains `r ncol(df2_raw)` variables and `r nrow(df2_raw)` observations. The variables contain information about the id, report date, victim demographic character, city, state, location and disposition. The reported_date, lat and lon variables are numeric and the rest are factor variables.
 
+### summarize total number and unsolved number of homicides
+
+```{r}
+total_number_of_homicide =
+  df_problem2 %>% 
+  group_by(city) %>% 
+  summarize(total_homicide = n())
+
+number_of_unsolved_homicides =
+  df_problem2 %>% 
+  filter(disposition == "Closed without arrest" | disposition == "Open/No arrest" ) %>% 
+  group_by(city) %>% 
+  summarize(total_homicide = n())  
+```
+
+### Estimate the proportion of unsolved homicides in Baltimore, MD
+
+```{r}
+Baltimore_homicide =
+  df_problem2 %>% 
+  filter(city_state == "Baltimore,MD") %>% 
+  summarize(total_homicide = n()) 
+
+Baltimore_unsolved_homicides =
+  df_problem2 %>% 
+  filter(disposition == "Closed without arrest" | disposition == "Open/No arrest" ) %>% 
+  filter(city_state == "Baltimore,MD") %>% 
+  summarize(total_homicide = n())
+
+Baltimore_proportion_of_unsolved_homicides = prop.test(Baltimore_unsolved_homicides[ ,1], Baltimore_homicide[ ,1])
+  
+broom::tidy(Baltimore_proportion_of_unsolved_homicides)
+```
+
+
+
 
 
 
