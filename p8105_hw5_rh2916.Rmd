@@ -54,7 +54,7 @@ df_problem1 %>%
   ggtitle("Observations on each subject over time")
 ```
 
-
+From the Spaghetti plot, we can find that the observations for subjects in experimental group increase over time while the observations for subjects in control group keep stable over weeks.
 
 
 
