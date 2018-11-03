@@ -12,6 +12,9 @@ library(janitor)
 library(purrr)
 ```
 
+
+Problem 1
+
 ### Start with a dataframe containing all file names
 ```{r}
 df = as.data.frame(list.files(path = "./data"))
@@ -55,6 +58,21 @@ df_problem1 %>%
 ```
 
 From the Spaghetti plot, we can find that the observations for subjects in experimental group increase over time while the observations for subjects in control group keep stable over weeks.
+
+Problem 2
+
+### Read data, add variable
+
+```{r}
+df2_raw = read.csv("./homicide-data.csv") 
+  
+df_problem2 = 
+  df2_raw %>%
+  mutate(city_state = paste(city, state, sep = ","))
+```
+
+The raw data contains `r ncol(df2_raw)` variables and `r nrow(df2_raw)` observations. The variables contain information about the id, report date, victim demographic character, city, state, location and disposition. The reported_date, lat and lon variables are numeric and the rest are factor variables.
+
 
 
 
