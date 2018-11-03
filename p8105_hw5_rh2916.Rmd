@@ -41,6 +41,20 @@ df_problem1 = cbind(df, id, output) %>%
 
 ### Make a spaghetti plot
 
+```{r}
+df_problem1 %>%
+  ggplot(aes(x = week, y = observations, color = id)) +
+  geom_line() +
+  facet_grid(~control_arm) +
+  theme(legend.position = "bottom")+
+  labs(
+    x = "week",
+    y = "value"
+  )+
+  ggtitle("Observations on each subject over time")
+```
+
+
 
 
 
