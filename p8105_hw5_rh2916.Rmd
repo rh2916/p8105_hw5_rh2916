@@ -128,9 +128,25 @@ df_city_state = df_summrize %>% pull(city_state)
 
 df_proportion = map_df(df_city_state, estimate)
 
-df_summrize %>%
-  mutate(estimate_proportion =  map(df_city_state, estimate)) %>% 
-  unnest()
+df_estimate = df_summrize %>%
+  mutate(estimate_proportion =  map(df_city_state, estimate)) %>%
+  unnest() %>% 
+  mutate(city_state = forcats::fct_reorder(city_state,estimate))
+```
+
+### Create a plot that shows the estimates and CIs for each city
+
+```{r}
+ggplot(df_estimate) +
+  geom_point(aes(x = city_state, y = estimate)) +
+  geom_errorbar(aes(x = city_state, ymin = conf_low, ymax = conf_high))+  
+  labs(
+    title = "Estimates and CIs for each city",
+    x = "City, State",
+    y = "Estimates and CIs"
+  ) +
+  theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1), legend.key.width = unit(0.15,'cm')) +
+  scale_color_hue(name = "City")
 ```
 
 
